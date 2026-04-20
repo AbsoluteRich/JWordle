@@ -1,12 +1,9 @@
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Wordle {
     public static void main(String[] args) {
-        Console console = System.console();
-
         int attempts = 6;
         char currentLetter;
         char actualLetter;
@@ -18,7 +15,7 @@ public class Wordle {
         ArrayList<Character> guess;
 
         System.out.println("Please enter your secret word:");
-        secretWord = Helper.convertToArrayList(console.readPassword());
+        secretWord = WordSource.wordFromInput();
 
         for (Character character : secretWord) {
             frequencyTable.put(character, Helper.getCharacterFrequency(secretWord, character));
