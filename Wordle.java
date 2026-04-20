@@ -8,22 +8,20 @@ public class Wordle {
         Console console = System.console();
 
         int attempts = 6;
-        Character currentLetter;
-        Character actualLetter;
+        char currentLetter;
+        char actualLetter;
         int letterFrequency;
 
         ArrayList<Character> secretWord;
-        HashMap<Character, Integer> secretFrequencyTable = new HashMap<>();
+        HashMap<Character, Integer> frequencyTable = new HashMap<>();
 
         ArrayList<Character> guess;
-        HashMap<Character, Integer> guessFrequencyTable = new HashMap<>();
 
         System.out.println("Please enter your secret word:");
         secretWord = Helper.convertToArrayList(console.readPassword());
-        // secretWord = Helper.convertToArrayList(userInput.nextLine().toCharArray());
 
         for (Character character : secretWord) {
-            secretFrequencyTable.put(character, Helper.getCharacterFrequency(secretWord, character));
+            frequencyTable.put(character, Helper.getCharacterFrequency(secretWord, character));
         }
 
         System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.size());
@@ -37,10 +35,6 @@ public class Wordle {
                     break;
                 }
 
-                for (Character character : guess) {
-                    guessFrequencyTable.put(character, Helper.getCharacterFrequency(guess, character));
-                }
-
                 if (guess.size() != secretWord.size()) {
                     // If the sizes aren't correct, this would result in an index out of bounds
                     // error
@@ -50,14 +44,14 @@ public class Wordle {
                     for (int i = 0; i < guess.size(); i++) {
                         currentLetter = guess.get(i);
                         actualLetter = secretWord.get(i);
-                        letterFrequency = secretFrequencyTable.get(currentLetter);
+                        letterFrequency = frequencyTable.getOrDefault(currentLetter, 0);
 
                         if (secretWord.contains(currentLetter)) {
                             // Letter is in word
-                            if (actualLetter.equals(currentLetter)) {
+                            if (actualLetter == currentLetter) {
                                 // Letter is in word and in correct position
                                 System.out.print(currentLetter);
-                                secretFrequencyTable.put(currentLetter, letterFrequency - 1);
+                                frequencyTable.put(currentLetter, letterFrequency - 1);
 
                             } else {
                                 // Letter is in word, but INCORRECT position
@@ -66,7 +60,7 @@ public class Wordle {
                                     // Incorrect position, but letter is duplicated
                                     // These are reported until there are none left in the guess word
                                     System.out.print("(" + currentLetter + ")");
-                                    secretFrequencyTable.put(currentLetter, letterFrequency - 1);
+                                    frequencyTable.put(currentLetter, letterFrequency - 1);
                                 } else {
                                     // Duplicate character is never used in word
                                     System.out.print("X");
