@@ -24,7 +24,7 @@ public class Game {
             switch (preferredSource) {
                 case "input" -> {
                     System.out.println("Please enter your secret word:");
-                    return Word.Source.wordFromInput();
+                    return Word.Source.wordFromInput(userInput);
                 }
 
                 case "random" -> {

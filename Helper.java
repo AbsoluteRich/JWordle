@@ -1,5 +1,5 @@
-import java.util.ArrayList;
 import javax.naming.OperationNotSupportedException;
+import java.util.ArrayList;
 
 public class Helper {
     // This is best practice, as per https://stackoverflow.com/a/1328486
