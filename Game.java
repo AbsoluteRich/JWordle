@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Game {
@@ -7,12 +5,12 @@ public class Game {
         System.out.println("Welcome to Wordle! How would you like your words today?");
 
         try (Scanner userInput = new Scanner(System.in)) {
-            ArrayList<Character> secret = getWordFromUser(userInput);
+            Word secret = getWordFromUser(userInput);
             startGame(secret, userInput);
         }
     }
 
-    private ArrayList<Character> getWordFromUser(Scanner userInput) {
+    private Word getWordFromUser(Scanner userInput) {
         String preferredSource;
 
         do {
@@ -26,46 +24,41 @@ public class Game {
             switch (preferredSource) {
                 case "input" -> {
                     System.out.println("Please enter your secret word:");
-                    return WordSource.wordFromInput();
+                    return Word.Source.wordFromInput();
                 }
 
                 case "random" -> {
-                    return WordSource.randomWord();
+                    return Word.Source.randomWord();
                 }
 
                 case "current" -> {
-                    return WordSource.currentWordle();
+                    return Word.Source.currentWordle();
                 }
             }
         } while (true);
     }
 
-    private void startGame(ArrayList<Character> secretWord, Scanner userInput) {
+    private void startGame(Word secretWord, Scanner userInput) {
         int attempts = 6;
-        HashMap<Character, Integer> frequencyTable = new HashMap<>();
-        ArrayList<Character> guess;
+        Word guess;
 
-        for (Character character : secretWord) {
-            frequencyTable.put(character, Helper.getCharacterFrequency(secretWord, character));
-        }
-
-        System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.size());
+        System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.wordArray.size());
 
         while (attempts > 0) {
-            guess = Helper.convertToArrayList(userInput.nextLine().toCharArray());
+            guess = new Word(userInput.nextLine());
 
-            if (secretWord.equals(guess)) {
+            if (Word.compare(secretWord, guess)) {
                 System.out.println("Congratulations!");
                 break;
             }
 
-            if (guess.size() != secretWord.size()) {
+            if (guess.wordArray.size() != secretWord.wordArray.size()) {
                 // If the sizes aren't correct, this would result in an index out of bounds
                 // error
-                System.out.printf("Not allowed! (Word has %d characters)\n", secretWord.size());
+                System.out.printf("Not allowed! (Word has %d characters)\n", secretWord.wordArray.size());
             } else {
                 // This is where the meat of the program lies, proceed to the source file for this class to learn more
-                GuessHandler.evaluate(guess, secretWord, frequencyTable);
+                GuessHandler.evaluate(guess, secretWord);
                 System.out.println();
             }
 
