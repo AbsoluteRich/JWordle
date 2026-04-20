@@ -24,15 +24,15 @@ public class Game {
             switch (preferredSource) {
                 case "input" -> {
                     System.out.println("Please enter your secret word:");
-                    return Word.Source.wordFromInput(userInput);
+                    return WordSource.wordFromInput(userInput);
                 }
 
                 case "random" -> {
-                    return Word.Source.randomWord();
+                    return WordSource.randomWord();
                 }
 
                 case "current" -> {
-                    return Word.Source.currentWordle();
+                    return WordSource.currentWordle();
                 }
             }
         } while (true);
