@@ -3,22 +3,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Wordle {
-    public static ArrayList<Character> convertToArrayList(char[] primitiveArray) {
-        ArrayList<Character> newArray = new ArrayList<>();
-
-        for (char character : primitiveArray) {
-            newArray.add(character);
-        }
-
-        return newArray;
-    }
-
-    // public static void printIterable(Iterable<?> array) {
-    //     for (Object element : array) {
-    //         System.out.print(element);
-    //     }
-    // }
-
     public static void main(String[] args) {
         Console console = System.console();
 
@@ -27,13 +11,13 @@ public class Wordle {
 
         System.out.println("Please enter your secret word:");
         char[] inputSecret = console.readPassword();
-        ArrayList<Character> secretWord = convertToArrayList(inputSecret);
+        ArrayList<Character> secretWord = Helper.convertToArrayList(inputSecret);
 
         System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.size());
 
         try (Scanner userInput = new Scanner(System.in)) {
             while (attempts > 0) {
-                guess = convertToArrayList(userInput.nextLine().toCharArray());
+                guess = Helper.convertToArrayList(userInput.nextLine().toCharArray());
 
                 if (secretWord.equals(guess)) {
                     System.out.println("\nCongratulations!");
