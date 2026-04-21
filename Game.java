@@ -34,6 +34,8 @@ public class Game {
                 case "current" -> {
                     return WordSource.currentWordle();
                 }
+
+                default -> System.out.println("Invalid input! Possible choices are 'input', 'random' or 'current'");
             }
         } while (true);
     }
@@ -42,20 +44,20 @@ public class Game {
         int attempts = 6;
         Word guess;
 
-        System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.wordArray.size());
+        System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.length());
 
         while (attempts > 0) {
             guess = new Word(userInput.nextLine());
 
-            if (Word.compare(secretWord, guess)) {
+            if (Word.equals(secretWord, guess)) {
                 System.out.println("Congratulations!");
                 break;
             }
 
-            if (guess.wordArray.size() != secretWord.wordArray.size()) {
+            if (guess.length() != secretWord.length()) {
                 // If the sizes aren't correct, this would result in an index out of bounds
                 // error
-                System.out.printf("Not allowed! (Word has %d characters)\n", secretWord.wordArray.size());
+                System.out.printf("Not allowed! (Word has %d characters)\n", secretWord.length());
             } else {
                 // This is where the meat of the program lies, proceed to the source file for this class to learn more
                 GuessHandler.evaluate(guess, secretWord);

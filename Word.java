@@ -1,37 +1,50 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Word {
-    final public ArrayList<Character> wordArray;
-    final public HashMap<Character, Integer> frequencyTable = new HashMap<>();
+    final private String word;
+    final private HashMap<Character, Integer> frequencyTable = new HashMap<>();
 
-    public Word(String word) {
-        this.wordArray = Helper.convertToArrayList(word.toCharArray());
+    public Word(String newWord) {
+        this.word = newWord;
         this.generateFrequencyTable();
     }
 
-    public Word(char[] word) {
-        this.wordArray = Helper.convertToArrayList(word);
+    public Word(char[] newWord) {
+        this.word = String.valueOf(newWord);
         this.generateFrequencyTable();
     }
 
-    public static boolean compare(Word wordOne, Word wordTwo) {
-        return wordOne.wordArray.equals(wordTwo.wordArray);
+    public static boolean equals(Word wordOne, Word wordTwo) {
+        // Tank u John Programming
+        return wordOne.getWord().equals(wordTwo.getWord());
     }
 
     private void generateFrequencyTable() {
-        for (Character character : this.wordArray) {
-            this.frequencyTable.put(character, Helper.getCharacterFrequency(this.wordArray, character));
+        // Jury-rigged from a school project
+        char[] characterList = this.word.toCharArray();
+
+        for (char character : characterList) {
+            this.frequencyTable.put(character, frequencyTable.getOrDefault(character, 0) + 1);
         }
     }
 
     public String getWord() {
-        StringBuilder combinedWord = new StringBuilder();
+        return this.word;
+    }
 
-        for (Character character : this.wordArray) {
-            combinedWord.append(character);
-        }
+    public HashMap<Character, Integer> getFrequencyTable() {
+        return this.frequencyTable;
+    }
 
-        return combinedWord.toString();
+    public int length() {
+        return this.word.length();
+    }
+
+    public char charAt(int index) {
+        return this.word.charAt(index);
+    }
+
+    public boolean contains(char characterToFind) {
+        return this.word.contains(String.valueOf(characterToFind));
     }
 }
