@@ -1,9 +1,7 @@
-import javax.naming.OperationNotSupportedException;
 import java.util.HashMap;
 
 public class GuessHandler {
-    private GuessHandler() throws OperationNotSupportedException {
-        throw new OperationNotSupportedException("This is a class used to group methods, do not instantiate");
+    private GuessHandler() {
     }
 
     public static void evaluate(Word guess, Word secretWord) {

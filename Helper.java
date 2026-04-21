@@ -1,10 +1,7 @@
-import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
 
 public class Helper {
-    // This is best practice, as per https://stackoverflow.com/a/1328486
-    private Helper() throws OperationNotSupportedException {
-        throw new OperationNotSupportedException("This is a class used to group methods, do not instantiate");
+    private Helper() {
     }
 
     public static ArrayList<Character> convertToArrayList(char[] primitiveArray) {

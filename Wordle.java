@@ -1,8 +1,5 @@
-import javax.naming.OperationNotSupportedException;
-
 public class Wordle {
-    private Wordle() throws OperationNotSupportedException {
-        throw new OperationNotSupportedException("This is a class used to group methods, do not instantiate");
+    private Wordle() {
     }
 
     public static void main(String[] args) {

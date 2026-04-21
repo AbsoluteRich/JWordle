@@ -1,4 +1,3 @@
-import javax.naming.OperationNotSupportedException;
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +10,7 @@ public class WordSource {
     private static final File wordList = new File("valid-wordle-words.txt");
     private static final Random rng = new Random();
 
-    private WordSource() throws OperationNotSupportedException {
-        throw new OperationNotSupportedException("This is a class used to group methods, do not instantiate");
+    private WordSource() {
     }
 
     public static Word wordFromInput(Scanner userInput) {
