@@ -65,5 +65,9 @@ public class Game {
             attempts--;
             System.out.printf("\nAttempts remaining: %d/6\n", attempts);
         }
+
+        if (attempts <= 0) {
+            System.out.printf("You lose! The word was %s", secretWord.getWord());
+        }
     }
 }

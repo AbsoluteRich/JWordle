@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class Word {
     final public ArrayList<Character> wordArray;
-    public HashMap<Character, Integer> frequencyTable = new HashMap<>();
+    final public HashMap<Character, Integer> frequencyTable = new HashMap<>();
 
     public Word(String word) {
         this.wordArray = Helper.convertToArrayList(word.toCharArray());
@@ -23,5 +23,15 @@ public class Word {
         for (Character character : this.wordArray) {
             this.frequencyTable.put(character, Helper.getCharacterFrequency(this.wordArray, character));
         }
+    }
+
+    public String getWord() {
+        StringBuilder combinedWord = new StringBuilder();
+
+        for (Character character : this.wordArray) {
+            combinedWord.append(character);
+        }
+
+        return combinedWord.toString();
     }
 }

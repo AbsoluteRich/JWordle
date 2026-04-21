@@ -1,4 +1,5 @@
 import javax.naming.OperationNotSupportedException;
+import java.util.HashMap;
 
 public class GuessHandler {
     private GuessHandler() throws OperationNotSupportedException {
@@ -9,19 +10,20 @@ public class GuessHandler {
         char currentLetter;
         char actualLetter;
         int letterFrequency;
+        HashMap<Character, Integer> workingTable = new HashMap<>(secretWord.frequencyTable);
 
         // INCOMING: Insane messy nested if statements
         for (int i = 0; i < guess.wordArray.size(); i++) {
             currentLetter = guess.wordArray.get(i);
             actualLetter = secretWord.wordArray.get(i);
-            letterFrequency = secretWord.frequencyTable.getOrDefault(currentLetter, 0);
+            letterFrequency = workingTable.getOrDefault(currentLetter, 0);
 
             if (secretWord.wordArray.contains(currentLetter)) {
                 // Letter is in word
                 if (actualLetter == currentLetter) {
                     // Letter is in word and in correct position
                     System.out.print(currentLetter);
-                    secretWord.frequencyTable.put(currentLetter, letterFrequency - 1);
+                    workingTable.put(currentLetter, letterFrequency - 1);
 
                 } else {
                     // Letter is in word, but INCORRECT position
@@ -30,7 +32,7 @@ public class GuessHandler {
                         // Incorrect position, but letter is duplicated
                         // These are reported until there are none left in the guess word
                         System.out.print("(" + currentLetter + ")");
-                        secretWord.frequencyTable.put(currentLetter, letterFrequency - 1);
+                        workingTable.put(currentLetter, letterFrequency - 1);
                     } else {
                         // Duplicate character is never used in word
                         System.out.print("X");
