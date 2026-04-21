@@ -41,7 +41,7 @@ public class Game {
     }
 
     private void startGame(Word secretWord, Scanner userInput) {
-        int attempts = 6;
+        int attempts = 5;
         Word guess;
 
         System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.length());
