@@ -3,8 +3,12 @@ package src;
 import java.util.Scanner;
 
 public class Game {
+    private boolean validateInput = true;
+    private WordSource dictionary = new WordSource();
+
     public void begin() {
         System.out.println("Welcome to Wordle! How would you like your words today?");
+        System.out.println("Would you like to 'input' your own word, choose a 'random' word, or take on the 'current' Wordle?");
 
         try (Scanner userInput = new Scanner(System.in)) {
             Word secret = getWordFromUser(userInput);
@@ -26,15 +30,16 @@ public class Game {
             switch (preferredSource) {
                 case "input" -> {
                     System.out.println("Please enter your secret word:");
-                    return WordSource.wordFromInput(userInput);
+                    validateInput = false;
+                    return dictionary.wordFromInput(userInput);
                 }
 
                 case "random" -> {
-                    return WordSource.randomWord();
+                    return dictionary.randomWord();
                 }
 
                 case "current" -> {
-                    return WordSource.currentWordle();
+                    return dictionary.currentWordle();
                 }
 
                 default -> System.out.println("Invalid input! Possible choices are 'input', 'random' or 'current'");
@@ -61,9 +66,15 @@ public class Game {
                 // error
                 System.out.printf("Not allowed! (Word has %d characters)\n", secretWord.length());
             } else {
-                // This is where the meat of the program lies, proceed to the source file for this class to learn more
-                GuessHandler.evaluate(guess, secretWord);
-                System.out.println();
+
+                if (validateInput && !dictionary.wordList.contains(guess.getWord())) {
+                    // Words are not validated if they are given by user input, since they could be anything
+                    System.out.println("Not allowed! (Word is not in dictionary)");
+                } else {
+                    // This is where the meat of the program lies, proceed to the source file for this class to learn more
+                    GuessHandler.evaluate(guess, secretWord);
+                    System.out.println();
+                }
             }
 
             attempts--;
