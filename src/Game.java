@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Game {
     private boolean validateInput = true;
-    private WordSource dictionary = new WordSource();
+    private final Dictionary dictionary = new Dictionary();
 
     public void begin() {
         System.out.println("Welcome to Wordle! How would you like your words today?");

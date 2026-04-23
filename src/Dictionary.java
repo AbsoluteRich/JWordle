@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class WordSource {
+public class Dictionary {
     public List<String> wordList;
 
-    public WordSource() {
+    public Dictionary() {
         try {
             Path listPath = Path.of("valid-wordle-words.txt");
             wordList = Files.readAllLines(listPath);
