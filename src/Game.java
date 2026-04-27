@@ -57,6 +57,7 @@ public class Game {
         int attempts = 6;
         final int maxAttempts = attempts;
         Word guess;
+        GuessHandler.Result[] results;
         GuessHandler.Result result;
         char currentLetter;
         String compiledLetters = "";
@@ -81,23 +82,24 @@ public class Game {
                     // Words are not validated if they are given by user input, since they could be anything
                     System.out.println("Not allowed! (Word is not in dictionary)");
                 } else {
-                    // This is where the meat of the program lies, proceed to the source file for this class to learn more
+                    results = GuessHandler.evaluateWord(guess, secretWord);
+
                     for (int i = 0; i < guess.length(); i++) {
-                        result = GuessHandler.evaluate(i, guess, secretWord);
-                        currentLetter = guess.getWord().charAt(i);
+                        currentLetter = guess.charAt(i);
                         usedLetters.add(currentLetter);
-                        compiledLetters = usedLetters.toString();
+                        result = results[i];
 
                         switch (result) {
                             case WRONG -> System.out.print("X");
                             case CORRECT -> System.out.print(GREEN + currentLetter + RESET);
-                            case MISPLACED ->  System.out.print(YELLOW + currentLetter + RESET);
+                            case MISPLACED -> System.out.print(YELLOW + currentLetter + RESET);
                         }
                     }
                 }
             }
 
             attempts--;
+            compiledLetters = usedLetters.toString();
             System.out.printf("\nAttempts remaining: %d/%d\nRemaining letters: %s\n", attempts, maxAttempts, compiledLetters.substring(1, compiledLetters.length() - 1));
         }
 

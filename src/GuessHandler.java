@@ -12,34 +12,46 @@ public class GuessHandler {
         WRONG
     }
 
-
-    public static Result evaluate(int wordIndex, Word guess, Word secretWord) {
-        char currentLetter = guess.charAt(wordIndex);
-        char actualLetter = secretWord.charAt(wordIndex);
+    public static Result[] evaluateWord(Word guess, Word secretWord) {
+        Result[] results = new Result[5];
+        char[] guessCharacters = guess.toCharArray();
         HashMap<Character, Integer> frequencyTable = secretWord.getFrequencyTable();
-        int letterFrequency = frequencyTable.getOrDefault(currentLetter, 0);
+        char currentLetter;
+        char actualLetter;
+        int letterFrequency;
 
-        if (secretWord.contains(currentLetter)) {
-            // Letter is in word
+        // Uses two passes
+        // The first identifies correct letters, removing them from the selection of incorrect letters
 
-            if (actualLetter == currentLetter) {
-                // Letter is in word and in correct position
+        for (int i = 0; i < guessCharacters.length; i++) {
+            currentLetter = guess.charAt(i);
+            actualLetter = secretWord.charAt(i);
+            letterFrequency = frequencyTable.getOrDefault(currentLetter, 0);
+
+            if (secretWord.contains(currentLetter) && actualLetter == currentLetter) {
                 frequencyTable.put(currentLetter, letterFrequency - 1);
-                return Result.CORRECT;
-            } else {
-                if (letterFrequency >= 0) {
-                    // Letter is in word, but incorrect position
-                    // Duplicate letters will be handled another time
-                    frequencyTable.put(currentLetter, letterFrequency - 1);
-                    return Result.MISPLACED;
-                } else {
-                    //
-                    return Result.WRONG;
-                }
+                results[i] = Result.CORRECT;
             }
-        } else {
-            // Letter is NOT in word
-            return Result.WRONG;
         }
+
+        // The second identifies incorrect letters, respecting duplicated letters in incorrect positions
+        for (int i = 0; i < guessCharacters.length; i++) {
+            if (results[i] == Result.CORRECT) {
+                continue;
+            }
+
+            // Because the above if-statement filters out the correct letters, we don't need to check again
+            currentLetter = guess.charAt(i);
+            letterFrequency = frequencyTable.getOrDefault(currentLetter, -1);
+
+            if (letterFrequency > 0) {
+                frequencyTable.put(currentLetter, letterFrequency - 1);
+                results[i] = Result.MISPLACED;
+            } else {
+                results[i] = Result.WRONG;
+            }
+        }
+
+        return results;
     }
 }

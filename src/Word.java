@@ -35,7 +35,8 @@ public class Word {
     }
 
     public HashMap<Character, Integer> getFrequencyTable() {
-        return this.frequencyTable;
+        // The horror on my face as I realised all of my functions were modifying the word's frequency table itself
+        return new HashMap<>(this.frequencyTable);
     }
 
     public int length() {
@@ -48,5 +49,9 @@ public class Word {
 
     public boolean contains(char characterToFind) {
         return this.word.contains(String.valueOf(characterToFind));
+    }
+
+    public char[] toCharArray() {
+        return this.word.toCharArray();
     }
 }
