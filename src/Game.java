@@ -1,6 +1,8 @@
 package src;
 
+import java.util.LinkedHashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Game {
     private boolean validateInput = true;
@@ -8,6 +10,7 @@ public class Game {
     final static private String YELLOW = "\u001B[33m";
     final static private String GREEN = "\u001B[32m";
     final static private String RESET = "\u001B[0m";
+    Set<Character> usedLetters = new LinkedHashSet<>();
 
     public void begin() {
         System.out.println("Welcome to Wordle! How would you like your words today?");
@@ -56,6 +59,7 @@ public class Game {
         Word guess;
         GuessHandler.Result result;
         char currentLetter;
+        String compiledLetters = "";
 
         System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.length());
 
@@ -81,6 +85,8 @@ public class Game {
                     for (int i = 0; i < guess.length(); i++) {
                         result = GuessHandler.evaluate(i, guess, secretWord);
                         currentLetter = guess.getWord().charAt(i);
+                        usedLetters.add(currentLetter);
+                        compiledLetters = usedLetters.toString();
 
                         switch (result) {
                             case WRONG -> System.out.print("X");
@@ -92,7 +98,7 @@ public class Game {
             }
 
             attempts--;
-            System.out.printf("\nAttempts remaining: %d/%d\n", attempts, maxAttempts);
+            System.out.printf("\nAttempts remaining: %d/%d\nRemaining letters: %s\n", attempts, maxAttempts, compiledLetters.substring(1, compiledLetters.length() - 1));
         }
 
         if (attempts <= 0) {
