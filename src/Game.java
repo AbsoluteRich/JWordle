@@ -5,6 +5,9 @@ import java.util.Scanner;
 public class Game {
     private boolean validateInput = true;
     private final Dictionary dictionary = new Dictionary();
+    final static private String YELLOW = "\u001B[33m";
+    final static private String GREEN = "\u001B[32m";
+    final static private String RESET = "\u001B[0m";
 
     public void begin() {
         System.out.println("Welcome to Wordle! How would you like your words today?");
@@ -51,6 +54,8 @@ public class Game {
         int attempts = 6;
         final int maxAttempts = attempts;
         Word guess;
+        GuessHandler.Result result;
+        char currentLetter;
 
         System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.length());
 
@@ -73,8 +78,16 @@ public class Game {
                     System.out.println("Not allowed! (Word is not in dictionary)");
                 } else {
                     // This is where the meat of the program lies, proceed to the source file for this class to learn more
-                    GuessHandler.evaluate(guess, secretWord);
-                    System.out.println();
+                    for (int i = 0; i < guess.length(); i++) {
+                        result = GuessHandler.evaluate(i, guess, secretWord);
+                        currentLetter = guess.getWord().charAt(i);
+
+                        switch (result) {
+                            case WRONG -> System.out.print("X");
+                            case CORRECT -> System.out.print(GREEN + currentLetter + RESET);
+                            case MISPLACED ->  System.out.print(YELLOW + currentLetter + RESET);
+                        }
+                    }
                 }
             }
 
