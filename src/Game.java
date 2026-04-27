@@ -1,8 +1,7 @@
 package src;
 
-import java.util.LinkedHashSet;
 import java.util.Scanner;
-import java.util.Set;
+import java.util.TreeSet;
 
 public class Game {
     private boolean validateInput = true;
@@ -10,7 +9,6 @@ public class Game {
     final static private String YELLOW = "\u001B[33m";
     final static private String GREEN = "\u001B[32m";
     final static private String RESET = "\u001B[0m";
-    Set<Character> usedLetters = new LinkedHashSet<>();
 
     public void begin() {
         System.out.println("Welcome to Wordle! How would you like your words today?");
@@ -60,7 +58,8 @@ public class Game {
         GuessHandler.Result[] results;
         GuessHandler.Result result;
         char currentLetter;
-        String compiledLetters = "";
+        TreeSet<Character> usedLetters = new TreeSet<>();
+        String compiledLetters;
 
         System.out.printf("Please enter your first attempt. (Word has %d characters)\n", secretWord.length());
 
@@ -86,6 +85,7 @@ public class Game {
 
                     for (int i = 0; i < guess.length(); i++) {
                         currentLetter = guess.charAt(i);
+
                         usedLetters.add(currentLetter);
                         result = results[i];
 
@@ -100,7 +100,8 @@ public class Game {
 
             attempts--;
             compiledLetters = usedLetters.toString();
-            System.out.printf("\nAttempts remaining: %d/%d\nRemaining letters: %s\n", attempts, maxAttempts, compiledLetters.substring(1, compiledLetters.length() - 1));
+            System.out.printf("\nAttempts remaining: %d/%d\n", attempts, maxAttempts);
+            System.out.printf("Used letters: %s\n", compiledLetters.substring(1, compiledLetters.length() - 1));
         }
 
         if (attempts <= 0) {
